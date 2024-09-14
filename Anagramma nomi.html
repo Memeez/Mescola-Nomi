@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mescolatore</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap"> <!-- Kanit Font -->
+    <style>
+        /* Apply Kanit font to all elements */
+        * {
+            font-family: 'Kanit', sans-serif; /* Fallback to sans-serif */
+            box-sizing: border-box; /* Ensure padding and border are included in element's total width and height */
+        }
+
+        body {
+            margin: 0;
+            background-color: #f0f0f0; /* Light background color */
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: auto; /* Handle overflow if content is too large */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .input-section {
+            width: 300px; /* Fixed width for input section */
+            background-color: #fff;
+            border-right: 2px solid #ccc; /* Border between sections */
+            padding: 20px;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1); /* Subtle shadow */
+        }
+
+        .input-section input, .input-section button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc; /* Border for inputs and button */
+            border-radius: 4px; /* Round corners */
+            width: calc(100% - 22px); /* Full width minus padding and border */
+        }
+
+        .input-section button {
+            background-color: #007bff; /* Button color */
+            color: white; /* Button text color */
+            border: none; /* Remove default border */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+
+        .input-section button:hover {
+            background-color: #0056b3; /* Darker button color on hover */
+        }
+
+        .result-section {
+            flex: 1; /* Take remaining space */
+            padding: 20px;
+            overflow: auto; /* Handle overflow if content is too large */
+        }
+
+        #result {
+            font-size: 24px; /* Larger font size */
+            line-height: 1.8; /* More space between lines */
+            white-space: pre-wrap; /* Preserve whitespace and newlines */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="input-section">
+            <h1>Mescola Nome e Cognome</h1>
+
+            <!-- Campi di input per Nome e Cognome -->
+            <input type="text" id="nome" placeholder="Inserisci il nome">
+            <input type="text" id="cognome" placeholder="Inserisci il cognome">
+
+            <!-- Pulsante per attivare la combinazione dei nomi -->
+            <button onclick="combineNames()">Mescola</button>
+        </div>
+
+        <div class="result-section">
+            <!-- Area per visualizzare il risultato -->
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function combineNames() {
+            let nome = document.getElementById("nome").value.toLowerCase();
+            let cognome = document.getElementById("cognome").value.toLowerCase();
+            let combinazioni = [];
+
+            console.log("Nome:", nome); // Debugging
+            console.log("Cognome:", cognome); // Debugging
+
+            for (let i = 0; i <= nome.length; i++) {
+                let parte_nome = nome.slice(0, i);
+                let resto_nome = nome.slice(i);
+
+                if (!parte_nome || !resto_nome) continue;
+
+                for (let j = 0; j <= cognome.length; j++) {
+                    let parte_cognome = cognome.slice(0, j);
+                    let resto_cognome = cognome.slice(j);
+
+                    if (!parte_cognome || !resto_cognome) continue;
+
+                    let pnome = parte_nome + resto_cognome;
+                    let pcognome = parte_cognome + resto_nome;
+
+                    if (pnome[0] !== nome[0] || pcognome[0] !== cognome[0]) continue;
+
+                    combinazioni.push(`${pnome.charAt(0).toUpperCase() + pnome.slice(1)} ${pcognome.charAt(0).toUpperCase() + pcognome.slice(1)}`);
+                }
+            }
+
+            let resultDiv = document.getElementById("result");
+            if (combinazioni.length > 0) {
+                resultDiv.innerHTML = `<strong>Combinazioni:</strong><br>${combinazioni.join("<br>")}`;
+            } else {
+                resultDiv.innerHTML = "Nessuna combinazione valida trovata.";
+            }
+        }
+    </script>
+
+</body>
+</html>
